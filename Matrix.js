@@ -84,7 +84,7 @@ class Matrix {
 
   randomise() {
     let num = Math.random();
-    console.log('Random ${num}');
+    // console.log(`Random ${num}`);
     // this.map(() => Math.random())
   }
 
@@ -149,7 +149,6 @@ class Matrix {
   static fromArray(n) {
     let mat = new Matrix(n.length, 1);
     for (let i = 0; i < n.length; i++) {
-      console.log(n[i])
       mat.data[i][0] = n[i];
     }
     
