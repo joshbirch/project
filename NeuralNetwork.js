@@ -28,8 +28,7 @@ class NeuralNetwork {
     let input =  Matrix.fromArray(inputArray);
 
 
-    this.hidden = Matrix.multiply(this.weights_ih, nput);
-    this.hidden.print();
+    this.hidden = Matrix.multiply(this.weights_ih, input);
     this.hidden.add(this.biases_h);
     this.hidden.map(this.activation);
 
@@ -37,7 +36,7 @@ class NeuralNetwork {
     output.add(this.biases_o);
     output.map(this.activation)
 
-    // output.print()
+    output.print()
     return output.toArray()
   }
 

@@ -7,38 +7,33 @@ class Matrix {
 
   }
 
-  /*
-      Required functions
-      -Addition *       static
-      -Subtraction *    static
-      -Multiply {Hadamard or scalar dependant on data type of variable passed in}
-      -Randomise *
-      -Map  *
-      -Transpose
-      -copy
-  */
-
 
   static multiply(a, b) {
-    var result = new Matrix(a.rows, b.cols);
-    for (var i = 0; i < a.rows; i++) {
-      for (var j = 0; j < b.cols; j++) {
-        // Sum all the rows of A times columns of B
-        var sum = 0;
-        for (var k = 0; k < a.cols; k++) {
-          sum += a.data[i][k] * b.data[k][j];
-        }
-        // New value
-        result.data[i][j] = sum;
-      }
-    }
-    return result;
+   // Won't work if columns of A don't equal columns of B
+   if (a.cols != b.rows) {
+    console.log("Incompatible matrix sizes!");
+    return;
   }
+  // Make a new matrix
+  var result = new Matrix(a.rows, b.cols);
+  for (var i = 0; i < a.rows; i++) {
+    for (var j = 0; j < b.cols; j++) {
+      // Sum all the rows of A times columns of B
+      var sum = 0;
+      for (var k = 0; k < a.cols; k++) {
+        sum += a.data[i][k] * b.data[k][j];
+      }
+      // New value
+      result.data[i][j] = sum;
+    }
+  }
+  return result;
+}
 
   static toMatrix(a) {
     let returned = new Matrix(a.length, 1);
     for (let i = 0; i < a.length; i++) {
-      returned.data[i][1] = a[i];
+      returned.data[i][0] = a[i];
     }
     return returned;
   }
@@ -83,9 +78,9 @@ class Matrix {
   }
 
   randomise() {
-    let num = Math.random();
+    // let num = Math.random();
     // console.log(`Random ${num}`);
-    // this.map(() => Math.random())
+    this.map(() => Math.random())
   }
 
   add(n) {
@@ -151,15 +146,16 @@ class Matrix {
     for (let i = 0; i < n.length; i++) {
       mat.data[i][0] = n[i];
     }
-    
+
     return mat;
   }
 
-  toArray(){
+  toArray() {
     let arr = [];
-    for (let i = 0;i < this.rows;i++){
+    for (let i = 0; i < this.rows; i++) {
       arr.push(this.data[i][0])
     }
+    return arr;
   }
 
 
