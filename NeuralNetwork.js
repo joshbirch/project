@@ -15,31 +15,27 @@ class NeuralNetwork {
     this.weights_ho = new Matrix(outputNodes, hiddenNodes);
     this.weights_ho.randomise();
 
-  }
-
-  setInput(x) {
-    for (let i = 0; i < x.length; i++) {
-      this.input.data[i][1] = x[i]
-    }
-  }
-
-
-  train(data, labels) {
-
-
-
-
+    this.biases_h = new Matrix(hiddenNodes,1);
+    this.biases_o = new Matrix(outputNodes,1);
+    this.biases_h.randomise()
+    this.biases_o.randomise()
 
   }
 
-  guess() {
+
+  feedForward(inputArray) {
+
+    this.input = Matrix.fromArray(inputArray);
     this.hidden = Matrix.multiply(this.weights_ih, this.input);
+    this.hidden.add(this.biases_h);
     this.hidden.map(this.activation);
 
-    this.output = Matrix.multiply(this.weights_ho, this.hidden);
-    this.output.map(this.activation)
+    let output = Matrix.multiply(this.weights_ho, this.hidden);
+    output.add(this.biases_o);
+    output.map(this.activation)
 
-    console.log(this.output)
+    output.print()
+    return output.toArray()
   }
 
 

@@ -1,15 +1,6 @@
-let nn = new NeuralNetwork(2, 5, 20);
+let nn = new NeuralNetwork(2, 5, 1);
 
-
-inputs = [
-  [0, 0],
-  [1, 0],
-  [0, 1],
-  [1, 1]
-]
-
-labels = [0, 1, 1, 0];
 
 nn.input.randomise();
 
-nn.guess()
+nn.feedForward([0.1,0.3211])
