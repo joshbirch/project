@@ -17,6 +17,48 @@ class Matrix {
       -Transpose
       -copy
   */
+
+
+  static multiply(a, b) {
+    var result = new Matrix(a.rows, b.cols);
+    for (var i = 0; i < a.rows; i++) {
+      for (var j = 0; j < b.cols; j++) {
+        // Sum all the rows of A times columns of B
+        var sum = 0;
+        for (var k = 0; k < a.cols; k++) {
+          sum += a.data[i][k] * b.data[k][j];
+        }
+        // New value
+        result.data[i][j] = sum;
+      }
+    }
+    return result;
+  }
+
+  static toMatrix(a) {
+    let returned = new Matrix(a.length, 1);
+    for (let i = 0; i < a.length; i++) {
+      returned.data[i][1] = a[i];
+    }
+    return returned;
+  }
+
+
+
+
+  multiply(n) {
+    if (isNaN(n)) {
+      for (var i = 0; i < this.rows; i++) {
+        for (var j = 0; j < this.cols; j++) {
+          this.data[i][j] *= n;
+        }
+      }
+    } else {
+      console.error('Invalid multiplication input');
+    }
+
+  }
+
   print() {
     console.table(this.data);
   }
@@ -41,7 +83,7 @@ class Matrix {
   }
 
   randomise() {
-    this.map(() => Math.floor(Math.random() * 10 - 5))
+    this.map(() => Math.random())
   }
 
   add(n) {
@@ -103,13 +145,13 @@ class Matrix {
   }
 
   static arrToMatrix(n) {
-    let matr = new Matrix(n.length, 1);
+    let mat = new Matrix(n.length, 1);
     for (let i = 0; i < n.length; i++) {
       console.log(n[i])
-      matr.data[i][0] = n[i];
+      mat.data[i][0] = n[i];
     }
-    matr.print();
-    return matr;
+    mat.print();
+    return mat;
   }
 
 
