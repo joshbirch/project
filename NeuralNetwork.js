@@ -14,6 +14,7 @@ class NeuralNetwork {
     this.output = new Matrix(outputNodes, 1);
     this.activation = sigmoid;
     this.derivative = dSigmoid;
+    this.lr = 0.1
 
     this.weights_ih = new Matrix(hiddenNodes, inputNodes);
     this.weights_ho = new Matrix(outputNodes, hiddenNodes);
@@ -58,16 +59,35 @@ class NeuralNetwork {
 
     let hiddenInput = Matrix.dot(this.weights_ih, input);
     hiddenInput.add(this.biases_h);
-    this.hidden.map(this.activation);
+    let hiddenOutput = Matrix.map(hiddenInput,this.activation)
 
+    let outputInput = Matrix.dot(this.weights_ho, this.hidden);
+    outputInput.add(this.biases_o);
 
-
-
-
+    let output = Matrix.map(outputInput,this.activation);
     let outputError = Matrix.subtract(target, output)
 
     let t_weights_ho = Matrix.transpose(this.weights_ho)
+    
+    let hiddenError = Matrix.dot(t_weights_ho,outputError);
 
+    let gradientOutput = Matrix.dot(output,this.derivative);
+    gradientOutput.multiply(outputError);
+    gradientOutput.multiply(this.lr);
+
+    let gradientHidden = Matrix.dot(hiddenOutput,this.derivative);
+    gradientHidden.multiply(hiddenError);
+    gradientHidden.multiply(this.lr)
+
+
+    let t_hiddenOutput = Matrix.transpose(hiddenOutput);
+    let deltaOutputWeights = Matrix.dot(gradientOutput,t_hiddenOutput);
+    this.weights_ho.add(deltaOutputWeights);
+
+
+    let t_inputs = Matrix.transpose(input);
+    let deltaHiddenWeights = Matrix.dot(gradientHidden,t_inputs);
+    this.weights_ih.add(deltaHiddenWeights);
 
 
 
