@@ -1,3 +1,2 @@
-let nn = new NeuralNetwork(1, 1, 3);
-nn.feedForward([Math.random()])
-
+let nn = new NeuralNetwork(1, 4, 3);
+let answer = nn.feedForward([Math.random()])
