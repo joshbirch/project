@@ -8,7 +8,7 @@ class Matrix {
   }
 
 
-  static multiply(a, b) {
+  static dot(a, b) {
    // Won't work if columns of A don't equal columns of B
    if (a.cols != b.rows) {
     console.log("Incompatible matrix sizes!");
@@ -78,9 +78,9 @@ class Matrix {
   }
 
   randomise() {
-    // let num = Math.random();
-    // console.log(`Random ${num}`);
-    this.map(() => Math.random())
+    this.map(Math.random)
+
+
   }
 
   add(n) {
