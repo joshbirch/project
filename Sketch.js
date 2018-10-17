@@ -1,5 +1,3 @@
-let nn = new NeuralNetwork(2, 1, 3);
-nn.feedForward([Math.random(),Math.random()])
-
-
+let nn = new NeuralNetwork(1, 1, 3);
+nn.feedForward([Math.random()])
 
