@@ -9,26 +9,26 @@ class Matrix {
 
 
   static dot(a, b) {
-   // Won't work if columns of A don't equal columns of B
-   if (a.cols != b.rows) {
-    console.log("Incompatible matrix sizes!");
-    return;
-  }
-  // Make a new matrix
-  var result = new Matrix(a.rows, b.cols);
-  for (var i = 0; i < a.rows; i++) {
-    for (var j = 0; j < b.cols; j++) {
-      // Sum all the rows of A times columns of B
-      var sum = 0;
-      for (var k = 0; k < a.cols; k++) {
-        sum += a.data[i][k] * b.data[k][j];
-      }
-      // New value
-      result.data[i][j] = sum;
+    // Won't work if columns of A don't equal columns of B
+    if (a.cols != b.rows) {
+      console.log("Incompatible matrix sizes!");
+      return;
     }
+    // Make a new matrix
+    var result = new Matrix(a.rows, b.cols);
+    for (var i = 0; i < a.rows; i++) {
+      for (var j = 0; j < b.cols; j++) {
+        // Sum all the rows of A times columns of B
+        var sum = 0;
+        for (var k = 0; k < a.cols; k++) {
+          sum += a.data[i][k] * b.data[k][j];
+        }
+        // New value
+        result.data[i][j] = sum;
+      }
+    }
+    return result;
   }
-  return result;
-}
 
   static toMatrix(a) {
     let returned = new Matrix(a.length, 1);
@@ -64,6 +64,18 @@ class Matrix {
         this.data[i][j] = func(this.data[i][j]);
       }
     }
+
+  }
+
+  static map(m,func){
+    let a = Matrix.copy(m)
+    for (var i = 0; i < a.rows; i++) {
+      for (var j = 0; j < a.cols; j++) {
+        a.data[i][j] = func(a.data[i][j]);
+      }
+    }
+    return a
+
 
   }
 
@@ -107,6 +119,9 @@ class Matrix {
     }
   }
 
+
+  
+  
   subtract(n) {
     if (n instanceof Matrix) {
       if ((n.rows == this.rows) && (this.cols == n.cols)) {
@@ -118,8 +133,8 @@ class Matrix {
       } else {
         console.error('Matrix dimensions not equal');
       }
-
-
+      
+      
     } else if (!isNaN(n)) {
       for (var i = 0; i < this.rows; i++) {
         for (var j = 0; j < this.cols; j++) {
@@ -130,7 +145,12 @@ class Matrix {
       console.error('Unexpected input type')
     }
   }
-
+  static subtract(a,b){
+    let m = Matrix.copy(a);
+    m.subtract(b);
+    return m;
+  }
+  
   static transpose(mat) {
     let n = new Matrix(mat.cols, mat.rows);
     for (var i = 0; i < n.rows; i++) {
