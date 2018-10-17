@@ -9,26 +9,26 @@ class Matrix {
 
 
   static dot(a, b) {
-   // Won't work if columns of A don't equal columns of B
-   if (a.cols != b.rows) {
-    console.log("Incompatible matrix sizes!");
-    return;
-  }
-  // Make a new matrix
-  var result = new Matrix(a.rows, b.cols);
-  for (var i = 0; i < a.rows; i++) {
-    for (var j = 0; j < b.cols; j++) {
-      // Sum all the rows of A times columns of B
-      var sum = 0;
-      for (var k = 0; k < a.cols; k++) {
-        sum += a.data[i][k] * b.data[k][j];
-      }
-      // New value
-      result.data[i][j] = sum;
+    // Won't work if columns of A don't equal columns of B
+    if (a.cols != b.rows) {
+      console.log("Incompatible matrix sizes!");
+      return;
     }
+    // Make a new matrix
+    var result = new Matrix(a.rows, b.cols);
+    for (var i = 0; i < a.rows; i++) {
+      for (var j = 0; j < b.cols; j++) {
+        // Sum all the rows of A times columns of B
+        var sum = 0;
+        for (var k = 0; k < a.cols; k++) {
+          sum += a.data[i][k] * b.data[k][j];
+        }
+        // New value
+        result.data[i][j] = sum;
+      }
+    }
+    return result;
   }
-  return result;
-}
 
   static toMatrix(a) {
     let returned = new Matrix(a.length, 1);
@@ -42,15 +42,13 @@ class Matrix {
 
 
   multiply(n) {
-    if (isNaN(n)) {
+    // if (!(isNaN(n))) {
       for (var i = 0; i < this.rows; i++) {
         for (var j = 0; j < this.cols; j++) {
           this.data[i][j] *= n;
         }
       }
-    } else {
-      console.error('Invalid multiplication input');
-    }
+   
 
   }
 
@@ -67,6 +65,7 @@ class Matrix {
 
   }
 
+
   static copy(mat) {
     let returned = new Matrix(mat.rows, mat.cols);
     for (var i = 0; i < mat.rows; i++) {
@@ -75,6 +74,17 @@ class Matrix {
       }
     }
     return returned;
+  }
+  static map(a, func) {
+    let m = Matrix.copy(a);
+    for (var i = 0; i < this.rows; i++) {
+      for (var j = 0; j < this.cols; j++) {
+        m.data[i][j] = func(m.data[i][j]);
+      }
+    }
+    return m;
+
+    
   }
 
   randomise() {
@@ -129,6 +139,21 @@ class Matrix {
     } else {
       console.error('Unexpected input type')
     }
+  }
+
+  static subtract(a,b){
+    let m = new Matrix(a.rows,a.cols);
+    if ((a.rows == b.rows) && (a.cols == b.cols)) {
+      for (var i = 0; i < this.rows; i++) {
+        for (var j = 0; j < this.cols; j++) {
+          m.data[i][j] = a.data[i][j]- b.data[i][j];
+        }
+      }
+    } else {
+      console.error('Matrix dimensions not equal');
+    }
+    return m
+
   }
 
   static transpose(mat) {
