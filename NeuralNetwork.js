@@ -37,11 +37,11 @@ class NeuralNetwork {
 
 
     this.hidden = Matrix.dot(this.weights_ih, input);
-    // this.hidden.add(this.biases_h);
+    this.hidden.add(this.biases_h);
     this.hidden.map(this.activation);
 
     let output = Matrix.dot(this.weights_ho, this.hidden);
-    // output.add(this.biases_o)
+    output.add(this.biases_o)
     output.map(this.activation)
     // output.print();
     if (returnMatrix) {
@@ -58,45 +58,42 @@ class NeuralNetwork {
     let target = Matrix.fromArray(target_array);
 
     let hiddenInput = Matrix.dot(this.weights_ih, input);
-    let hiddenOutput = Matrix.map(Matrix.add(hiddenInput,this.biases_h), this.activation)
-    let outputInput = Matrix.dot(this.weights_ho, this.hidden);
-    // outputInput.add(this.biases_o);
-    
-    let output = Matrix.map(Matrix.add(outputInput,this.biases_o), sigmoid); // corruption
+    let hiddenBias = Matrix.add(hiddenInput,this.biases_h);
 
+    let hiddenOutput = Matrix.map(hiddenBias, this.activation)
+
+    let outputInput = Matrix.dot(this.weights_ho, this.hidden);  
+    let outputBias = Matrix.add(outputInput,this.biases_o)
+    let output = Matrix.map(outputBias, sigmoid); 
+  
+
+    input.print();
     
     let outputError = Matrix.subtract(target, output)
     
-    
+    // target.print();
+    // console.log('target^')
+    // output.print();
+    // console.log('output^')
+    // outputError.print();
+    // console.log('error^')
+
+
+
     let t_weights_ho = Matrix.transpose(this.weights_ho)
-    
-    let hiddenError = Matrix.dot(t_weights_ho, outputError);
-    
- 
+    let hiddenError = Matrix.dot(t_weights_ho, outputError); 
     let gradientOutput = Matrix.map(output, this.derivative);
     gradientOutput.multiply(outputError);
     gradientOutput.multiply(this.lr);
-    
     let gradientHidden = Matrix.map(hiddenOutput, this.derivative);
     gradientHidden.multiply(hiddenError);
     gradientHidden.multiply(this.lr)
-    
-    
     let t_hiddenOutput = Matrix.transpose(hiddenOutput);
     let deltaOutputWeights = Matrix.dot(gradientOutput, t_hiddenOutput);
-  
-
-    
     this.weights_ho.add(deltaOutputWeights);    // this line
-    
-
     let t_inputs = Matrix.transpose(input);
     let deltaHiddenWeights = Matrix.dot(gradientHidden, t_inputs);
     this.weights_ih.add(deltaHiddenWeights);
-
-    // this.weights_ho.print()
-    
-
   }
 
 

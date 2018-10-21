@@ -18,9 +18,9 @@ let targets = [
 
 
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 4; j++) {
-        nn.train(training[0],targets[0]);
+        nn.train(training[4],targets[4]);
     }
 }
 console.log('Training complete')
