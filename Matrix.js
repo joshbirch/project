@@ -25,13 +25,13 @@ class Matrix {
       }
       return result;
     } else {
-      
+      let result = Matrix.copy(a);
       for (let i = 0; i < a.rows; i++) {
         for (let j = 0; j < a.cols; j++) {
-          a.data[i][j] *= b
+          result.data[i][j] *= b
         }
       }
-      return a;
+      return result;
     }
   }
 
@@ -41,6 +41,29 @@ class Matrix {
       returned.data[i][0] = a[i];
     }
     return returned;
+  }
+
+  static add(a, b) {
+    let result = Matrix.copy(a);
+    if (b instanceof Matrix) {
+      if ((a.rows == b.rows) && (a.cols == b.cols)) {
+        for (var i = 0; i < result.rows; i++) {
+          for (var j = 0; j < result.cols; j++) {
+            result.data[i][j] += result.data[i][j];
+          }
+        }
+      } else {
+        console.error('Matrix dimensions not equal for addition')
+      }
+    } else {
+      for (var i = 0; i < result.rows; i++) {
+        for (var j = 0; j < result.cols; j++) {
+          result.data[i][j] += b;
+        }
+      }
+    }
+    return result;
+
   }
 
 
@@ -75,13 +98,17 @@ class Matrix {
   }
 
   static map(m, func) {
-    let a = Matrix.copy(m)
-    for (var i = 0; i < a.rows; i++) {
-      for (var j = 0; j < a.cols; j++) {
-        a.data[i][j] = func(a.data[i][j]);
+    if (m instanceof Matrix) {
+      let a = Matrix.copy(m)
+      for (var i = 0; i < a.rows; i++) {
+        for (var j = 0; j < a.cols; j++) {
+          a.data[i][j] = func(m.data[i][j]);
+        }
       }
+      return a
+    } else {
+      console.error(`${m} is not a matrix and cannot be mapped to`)
     }
-    return a
   }
 
   static copy(mat) {
