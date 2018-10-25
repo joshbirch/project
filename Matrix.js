@@ -10,7 +10,9 @@ class Matrix {
   static dot(a, b) {
     if (b instanceof Matrix) {
       if (a.cols != b.rows) {
-        console.log("Incompatible matrix sizes!");
+        console.error("Incompatible matrix sizes!");
+        console.log(a)
+        console.log(b)
         return;
       }
       var result = new Matrix(a.rows, b.cols);
@@ -25,13 +27,14 @@ class Matrix {
       }
       return result;
     } else {
-      
+      let result = Matrix.copy(a);
+
       for (let i = 0; i < a.rows; i++) {
         for (let j = 0; j < a.cols; j++) {
-          a.data[i][j] *= b
+          result.data[i][j] *= b
         }
       }
-      return a;
+      return result;
     }
   }
 
@@ -42,6 +45,39 @@ class Matrix {
     }
     return returned;
   }
+
+
+
+
+
+  static add(a, b) {
+    let result = Matrix.copy(a);
+    if (b instanceof Matrix) {
+      if ((a.rows == b.rows) && (a.cols == b.cols)) {
+        for (var i = 0; i < result.rows; i++) {
+          for (var j = 0; j < result.cols; j++) {
+            result.data[i][j] += b.data[i][j];
+          }
+        }
+      } else {
+        console.error('Matrix dimensions not equal');
+      }
+
+
+    } else {
+      for (var i = 0; i < this.rows; i++) {
+        for (var j = 0; j < this.cols; j++) {
+          result.data[i][j] += b;
+        }
+      }
+    }
+    return result;
+  }
+
+
+
+
+
 
 
 
