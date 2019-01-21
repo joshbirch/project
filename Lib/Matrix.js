@@ -115,8 +115,7 @@ class Matrix {
     // Apply a function to every element of matrix
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
-        let val = this.data[i][j];
-        this.data[i][j] = func(val, i, j);
+        this.data[i][j] = func(this.data[i][j], i, j);
       }
     }
     return this;
@@ -138,11 +137,11 @@ class Matrix {
     return this;
   }
 
-  serialize() {
+  exportMatrix() {
     return JSON.stringify(this);
   }
 
-  static deserialize(data) {
+  static importMatrix(data) {
     if (typeof data == 'string') {
       data = JSON.parse(data);
     }
@@ -152,6 +151,6 @@ class Matrix {
   }
 }
 
-if (typeof module !== 'undefined') {
-  module.exports = Matrix;
-}
+// if (typeof module !== 'undefined') {
+//   module.exports = Matrix;
+// }

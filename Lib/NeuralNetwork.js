@@ -9,6 +9,9 @@ function dSigmoid(x) {
 
 class NeuralNetwork {
   constructor(inputNodes, hiddenNodes, outputNodes) {
+    this.inputNodes = inputNodes;
+    this.hiddenNodes = hiddenNodes;
+    this.outputNodes = outputNodes;
     this.input = new Matrix(inputNodes, 1);
     this.hidden = new Matrix(hiddenNodes, 1);
     this.output = new Matrix(outputNodes, 1);
@@ -108,6 +111,37 @@ class NeuralNetwork {
     this.bias_h.add(hidden_gradient);
 
 
+
+  }
+
+  exportConfig(){
+    return JSON.stringify(this);
+  }
+
+  static createFromImport(json){
+    let data = JSON.parse(json);
+    console.log(data)
+    let nn = new NeuralNetwork(data.inputNodes,data.hiddenNodes,data.outputNodes);
+    
+
+    nn.inputNodes = data.inputNodes;
+    nn.hiddenNodes = data.hiddenNodes;
+    nn.outputNodes = data.outputNodes;
+    nn.input = data.input;
+    nn.hidden = data.hidden;
+    nn.output = data.output;
+    nn.activation = data.activation;
+    nn.derivative = data.derivative;
+    nn.lr = data.lr;
+
+    nn.weights_ih = data.weights_ih
+    nn.weights_ho = data.weights_ho;
+
+  
+
+    nn.bias_h = data.bias_h;
+    nn.bias_o = data.bias_o;
+    return nn;
 
   }
 
